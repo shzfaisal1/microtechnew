@@ -419,20 +419,25 @@ public function store(Request $request)
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-
-        $calculation = Calculation::where('invoice_number', $id)->first();
-        if ($calculation) {
-            $calculation->delete();
+        // dd($request->all());
+        
+        $new_purchase= DB::table('new_purchase_order')->where('id',$request->id)->delete();
+        if($new_purchase){
+            
         }
+        // $calculation = Calculation::where('invoice_number', $id)->first();
+        // if ($calculation) {
+        //     $calculation->delete();
+        // }
 
-        $purchaseInvoices = PurchaseInvoice::where('invoice_number', $id)->get();
-        foreach ($purchaseInvoices as $invoice) {
-            $invoice->delete();
-        }
+        // $purchaseInvoices = PurchaseInvoice::where('invoice_number', $id)->get();
+        // foreach ($purchaseInvoices as $invoice) {
+        //     $invoice->delete();
+        // }
 
-        return  redirect()->back()->with('success', 'Invoice deleted successfully');
+        return  response()->json(['message' => 'working']);
     }
 
     public function search()

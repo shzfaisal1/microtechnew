@@ -308,11 +308,32 @@ $(document).ready(function () {
             }
         });
     });
-
-    // NOTE:
-    // Your "Edit Summary Fields" button is wrapped in <a id="link"> which navigates to the edit page.
-    // If you instead want that button to toggle readonly -> editable inline, let me know and I will
-    // replace the anchor with a button and add that JS behavior.
+    
+     $('#invoiceTable').on('click', '.btn-delete', function () {
+         
+         let id = $(this).data('id');
+     
+             $.ajax({
+              url: '{{route("purchase-invoice.delete")}}',
+              method: 'GET', 
+              data: { id: id }, 
+              dataType: 'json', 
+              success: function(response) {
+              
+               $('#invoiceTable').DataTable().ajax.reload();
+              },
+              error: function(xhr, status, error) {
+              
+                console.error('Error:', error);
+              },
+              complete: function() {
+               
+                console.log('Request complete.');
+              }
+            });  
+          
+     });
+    
 });
 </script>
 @endpush
